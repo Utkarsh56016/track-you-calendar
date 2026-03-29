@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cyan">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>track-you-calendar</title>
+  <meta name="description" content="Terminal-style productivity calendar with task tracking, analytics, and optional cloud sync." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- ── Auth overlay (hidden by default; shown when Firebase is ready + user not logged in) ── -->
+  <div class="auth-overlay" id="auth-overlay" hidden role="dialog" aria-modal="true" aria-label="Cloud authentication">
+    <div class="auth-panel">
+      <p class="auth-title">// cloud access</p>
+      <p class="auth-sub">sign in to sync across devices — or skip to use locally</p>
+
+      <form class="auth-form-wrap" id="auth-form-wrap" autocomplete="on" novalidate>
+        <div class="auth-field">
+          <span class="auth-prompt" aria-hidden="true">&gt;</span>
+          <label for="auth-email" class="auth-label">email&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input type="email" id="auth-email" class="auth-input" autocomplete="email" spellcheck="false" />
+        </div>
+        <div class="auth-field">
+          <span class="auth-prompt" aria-hidden="true">&gt;</span>
+          <label for="auth-password" class="auth-label">password</label>
+          <input type="password" id="auth-password" class="auth-input" autocomplete="current-password" />
+        </div>
+
+        <p class="auth-error" id="auth-error" hidden aria-live="polite"></p>
+
+        <div class="auth-actions">
+          <button type="submit" class="auth-btn" id="auth-login-btn">[ login ]</button>
+          <button type="button" class="auth-btn" id="auth-signup-btn">[ create account ]</button>
+          <button type="button" class="auth-btn auth-btn--muted" id="auth-skip-btn">[ skip → local mode ]</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="app" id="app-root">
+      <aside class="panel panel--left" id="panel-left">
+        <div class="user-line" id="user-line" title="Click to edit">
+          <span class="user-line__label">user:</span>
+          <button type="button" class="user-line__name" id="username-display" aria-label="Edit username"></button>
+        </div>
+
+        <section class="block analytics" aria-labelledby="analytics-heading">
+          <h2 id="analytics-heading" class="block__title">// analytics</h2>
+          <dl class="analytics__list">
+            <div class="analytics__row"><dt>tasks today</dt><dd id="stat-today">0</dd></div>
+            <div class="analytics__row"><dt>tasks this week</dt><dd id="stat-week">0</dd></div>
+            <div class="analytics__row"><dt>completion %</dt><dd id="stat-pct">0%</dd></div>
+            <div class="analytics__row"><dt>streak</dt><dd id="stat-streak">0</dd></div>
+            <div class="analytics__row"><dt>execution score</dt><dd id="stat-exec">0%</dd></div>
+          </dl>
+          <h3 class="analytics__sub" id="weekly-heading">// weekly</h3>
+          <dl class="analytics__list analytics__list--tight" aria-labelledby="weekly-heading">
+            <div class="analytics__row"><dt>total done</dt><dd id="stat-week-total">0</dd></div>
+            <div class="analytics__row"><dt>best day</dt><dd id="stat-best-day">—</dd></div>
+            <div class="analytics__row"><dt>worst day</dt><dd id="stat-worst-day">—</dd></div>
+          </dl>
+        </section>
+
+        <section class="block graphs" aria-labelledby="graphs-heading">
+          <h2 id="graphs-heading" class="block__title">// activity</h2>
+          <p class="graphs__caption">weekly (mon–sun)</p>
+          <div class="graph graph--bars" id="graph-weekly-bars" role="img" aria-label="Weekly completed tasks"></div>
+          <h3 class="analytics__sub graphs__sub">// trend (last 7 days)</h3>
+          <p class="graphs__caption">completion % per day</p>
+          <div class="graph graph--trend" id="graph-trend" role="img" aria-label="Seven day completion trend"></div>
+        </section>
+
+        <section class="block quote" aria-labelledby="quote-heading">
+          <h2 id="quote-heading" class="block__title">// quote</h2>
+          <blockquote class="quote__text" id="quote-text"></blockquote>
+        </section>
+
+        <div class="creator-credit">
+          made by Andrew Mishaz
+        </div>
+      </aside>
+
+      <main class="panel panel--main">
+
+        <div class="main__toolbar">
+          <span class="main__toolbar-spacer" aria-hidden="true"></span>
+
+          <!-- Sync status indicator -->
+          <span class="sync-status" id="sync-status" data-status="local" aria-live="polite">● local mode</span>
+
+          <label class="theme-field">
+            <span class="theme-field__label">theme</span>
+            <select id="theme-select" class="theme-select" aria-label="Color theme">
+              <option value="cyan">cyan</option>
+              <option value="green">green</option>
+              <option value="amber">amber</option>
+              <option value="ice">ice</option>
+            </select>
+          </label>
+
+          <!-- Auth bar: shown when logged in -->
+          <span class="auth-bar" id="auth-bar" hidden>
+            <span class="auth-bar__email" id="auth-bar-email"></span>
+            <button type="button" class="auth-bar__btn" id="auth-logout-btn">logout</button>
+          </span>
+
+          <!-- Login button: shown when logged out + Firebase ready -->
+          <button type="button" class="auth-bar__btn auth-bar__btn--login" id="auth-signin-btn" hidden>login</button>
+        </div>
+
+        <header class="main__header">
+          <div class="clock" id="clock" aria-live="polite">--:--:-- --</div>
+        </header>
+
+        <div class="calendar__nav" id="calendar-nav">
+          <button type="button" class="btn" id="prev-month" aria-label="Previous month">&lt;</button>
+          <span class="calendar__label" id="month-label"></span>
+          <button type="button" class="btn" id="next-month" aria-label="Next month">&gt;</button>
+        </div>
+
+        <div class="calendar-wrap" id="calendar-wrap">
+          <div class="weekdays" id="weekdays"></div>
+          <div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Calendar"></div>
+        </div>
+
+        <section class="task-panel block" aria-labelledby="task-heading" id="task-panel">
+          <h2 id="task-heading" class="block__title">
+            // tasks <span class="task-panel__date" id="selected-date-label"></span>
+          </h2>
+
+          <form class="task-form" id="task-form" autocomplete="off">
+            <span class="task-input__prompt" aria-hidden="true">&gt;</span>
+            <label class="sr-only" for="task-input">New task</label>
+            <input type="text" id="task-input" class="task-input" placeholder="type task, enter to commit" maxlength="500" />
+          </form>
+
+          <ul class="task-list" id="task-list"></ul>
+          <p class="task-empty" id="task-empty" hidden>no tasks for this date.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- script.js is now an ES module (automatically deferred) -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
