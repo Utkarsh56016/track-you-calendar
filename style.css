@@ -1465,3 +1465,113 @@ body.focus-mode .task-panel .task-list {
     padding: 12px;
   }
 }
+
+/* Mobile polish overrides (non-destructive): keep graphs + stretch containers */
+@media (max-width: 768px) {
+  /* Restore graphs and make them responsive instead of hidden */
+  .graphs {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-bottom: 6px;
+  }
+
+  .graph {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .graph canvas,
+  .graph-bar-container {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  /* Time block visual alignment */
+  .mobile-time-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    padding: 14px;
+    border: 1px solid #222;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+  }
+
+  .clock {
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .date-display {
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+
+  /* Task area expansion and safe wrapping */
+  .tasks,
+  .task-container,
+  .task-panel,
+  .task-list {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .task-item {
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Ensure parent containers grow with content */
+  .panel,
+  .panel--left,
+  .panel--main {
+    height: auto !important;
+    min-height: unset !important;
+  }
+
+  /* Consistent lower spacing/padding rhythm */
+  .panel--left > *,
+  .panel--main > * {
+    padding-bottom: 14px;
+  }
+
+  .tasks,
+  .task-container,
+  .task-panel {
+    padding-bottom: 18px;
+  }
+
+  /* Input overflow guard */
+  input,
+  textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Column consistency */
+  .panel--left,
+  .panel--main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
