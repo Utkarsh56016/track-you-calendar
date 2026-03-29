@@ -1678,25 +1678,40 @@ body.focus-mode .task-panel .task-list {
   }
 
   .task-item {
-    display: flex;
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    column-gap: 10px;
+    row-gap: 0;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   .task-item span,
   .task-item .task-item__label {
     flex: 1;
     min-width: 0;
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: break-word;
+    display: block;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
     overflow: visible !important;
     text-overflow: clip !important;
     max-width: 100%;
+    writing-mode: horizontal-tb !important;
+  }
+
+  .task-item input[type="checkbox"] {
+    justify-self: start;
+  }
+
+  .task-item button,
+  .task-item .task-item__del {
+    justify-self: end;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   input {
