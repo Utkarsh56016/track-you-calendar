@@ -906,12 +906,17 @@ body.focus-mode .task-panel .task-list {
     flex-direction: column;
     gap: 12px;
     overflow: visible;
+    width: 100%;
+    max-width: 100%;
   }
 
   .app-header {
     order: 0;
     padding: 0.45rem 0.55rem;
     gap: 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .panel--left,
@@ -934,6 +939,9 @@ body.focus-mode .task-panel .task-list {
     order: 2;
     padding: 10px;
     overflow: visible;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   /* Ensure intended vertical order inside sidebar */
@@ -951,6 +959,7 @@ body.focus-mode .task-panel .task-list {
   .panel--left > *,
   .panel--main > * {
     width: 100%;
+    max-width: 100%;
   }
 
   .main__toolbar {
@@ -970,20 +979,26 @@ body.focus-mode .task-panel .task-list {
     margin-bottom: 0.15rem;
     width: 100%;
     max-width: 100%;
-    overflow: hidden;
+    box-sizing: border-box;
+    overflow: visible;
   }
 
   /* Clock above calendar, left aligned, tighter mobile scale */
   .main__header {
     margin-bottom: 0.4rem;
     padding-bottom: 0.25rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .clock {
     display: block;
+    position: static;
+    width: 100%;
     text-align: left;
     font-size: 14px;
-    margin: 0 0 0.4rem 0;
+    margin: 0 0 10px 0;
   }
 
   /* Calendar header: prev | month | next */
@@ -1015,13 +1030,15 @@ body.focus-mode .task-panel .task-list {
     height: auto;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     grid-auto-rows: auto;
-    overflow: hidden;
+    min-width: 0;
+    overflow: visible;
   }
 
   .calendar-cell {
     aspect-ratio: 1 / 1;
     height: auto;
     min-height: 0;
+    min-width: 0;
     font-size: 12px;
     padding: 4px 6px;
   }
