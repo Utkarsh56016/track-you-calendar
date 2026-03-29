@@ -1356,71 +1356,189 @@ body.focus-mode .task-panel .task-list {
   }
 }
 
-/* Mobile task layout stabilization (single source of truth) */
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE FIX — max-width: 768px
+   Scope: overflow, width containment, clock tile, panel stacking
+   Desktop (>768px) is completely unaffected.
+═══════════════════════════════════════════════════════════════════ */
+ 
 @media (max-width: 768px) {
-  /* Today-focused tasks only — full grid is awkward on small screens; JS still tracks selected date */
-  .calendar__nav,
-  .calendar-header,
-  .calendar-wrap {
-    display: none !important;
+ 
+  /* ── 1. Viewport containment ─────────────────────────────────── */
+  /* Prevent ANY element from creating horizontal scroll.           */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
-
-  .mobile-time-block {
+ 
+  /* ── 2. Shell & app root ─────────────────────────────────────── */
+  /* .shell already sets padding:10px at 768px — just ensure       */
+  /* box-sizing is respected and width never exceeds viewport.      */
+  .shell {
     width: 100%;
-    max-width: 100%;
-    padding: 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.4);
+    max-width: 100vw;
     box-sizing: border-box;
+    padding: 10px;
+    height: auto;
+    min-height: 0;
   }
-
-  .task-panel {
-    display: flex;
+ 
+  /* Force single-column flex; kill the grid entirely.              */
+  /* Base grid-template-columns: minmax(260px,300px) 1fr bleeds.   */
+  .app {
+    display: flex !important;
     flex-direction: column;
     width: 100%;
     max-width: 100%;
-    max-height: none;
+    box-sizing: border-box;
     overflow: visible;
   }
-
-  .task-list {
-    display: block;
+ 
+  /* ── 3. Left panel — kill fixed width ───────────────────────── */
+  /* Base: width:280px; min-width:260px — both must be overridden. */
+  .panel--left {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+ 
+  /* ── 4. Main panel — prevent hidden overflow clipping content ─ */
+  /* Base: overflow:hidden clips task list and calendar on mobile.  */
+  .panel--main {
     width: 100%;
     max-width: 100%;
-    max-height: none;
-    overflow-x: hidden;
-    overflow-y: visible;
+    box-sizing: border-box;
+    overflow: visible;
+    padding: 10px;
   }
-
-  .task-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+ 
+  /* ── 5. App header — constrain toolbar row ───────────────────── */
+  /* Without max-width, sync-status + theme + auth push header wide.*/
+  .app-header {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;          /* clips nothing visible; stops bleed */
+  }
+ 
+  .main__toolbar {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+ 
+  /* Truncate email in auth bar so it never forces width */
+  .auth-bar__email {
+    max-width: 8ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+ 
+  /* ── 6. Clock / mobile-time-block tile ───────────────────────── */
+  /* Problem: .mobile-time-block padding + clock margin-bottom      */
+  /* causes the tile to overflow its container on narrow screens.   */
+  .mobile-time-block {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;     /* padding included in width */
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+ 
+  /* Clock lives inside the tile — remove its own bottom margin     */
+  /* so the tile height is driven only by padding, not margin bleed.*/
+  .mobile-time-block .clock {
+    margin-bottom: 0;
+    font-size: 14px;
+    position: static;
+    width: 100%;
+    display: block;
+  }
+ 
+  /* ── 7. Calendar (when visible) — full-width grid ────────────── */
+  /* These selectors are display:none at 768px per existing rule,   */
+  /* but guard them here in case that rule is ever changed.         */
+  .calendar-wrap {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+ 
+  .weekdays,
+  .calendar-grid {
+    width: 100%;
+    max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
   }
-
-  .task-item input[type="checkbox"] {
-    flex: 0 0 auto;
-    margin: 0;
-    align-self: center;
+ 
+  /* ── 8. Task panel & form ────────────────────────────────────── */
+  /* Ensure task input row never forces width beyond screen.        */
+  .task-panel {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
   }
-
-  .task-item .task-item__label {
-    flex: 1 1 auto;
+ 
+  .task-form {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     min-width: 0;
-    display: block;
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
   }
-
-  .task-item .task-item__del {
-    margin-left: auto;
-    flex: 0 0 auto;
-    white-space: nowrap;
+ 
+  .task-input {
+    min-width: 0;           /* flex children can shrink below content width */
+    width: 0;               /* let flex: 1 do the sizing, not intrinsic width */
+  }
+ 
+  /* Task items: prevent label overflow pushing row wide */
+  .task-item {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    overflow: hidden;
+  }
+ 
+  .task-item__label {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    min-width: 0;
+  }
+ 
+  /* ── 9. Analytics & graph blocks ─────────────────────────────── */
+  .analytics,
+  .graphs,
+  .quote,
+  .block {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+ 
+  /* Bar chart: ensure it never stretches wider than its block */
+  .bar-chart {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+ 
+  /* Trend plot: position:relative children are absolute; container  */
+  /* must have an explicit width to constrain them.                  */
+  .trend__plot {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 }
