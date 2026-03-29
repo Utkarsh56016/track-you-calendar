@@ -1358,6 +1358,13 @@ body.focus-mode .task-panel .task-list {
 
 /* Mobile task layout stabilization (single source of truth) */
 @media (max-width: 768px) {
+  /* Today-focused tasks only — full grid is awkward on small screens; JS still tracks selected date */
+  .calendar__nav,
+  .calendar-header,
+  .calendar-wrap {
+    display: none !important;
+  }
+
   .mobile-time-block {
     width: 100%;
     max-width: 100%;
