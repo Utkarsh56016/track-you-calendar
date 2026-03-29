@@ -1620,4 +1620,40 @@ body.focus-mode .task-panel .task-list {
     flex-direction: column;
     gap: 12px;
   }
+
+  /* Final containment lock: prevent task overflow escape */
+  .tasks,
+  .task-panel,
+  .task-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden !important;
+    box-sizing: border-box;
+  }
+
+  .task-list {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden !important;
+  }
+
+  .task-item {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .task-item span,
+  .task-item .task-item__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .task-input,
+  input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 }
