@@ -44,12 +44,40 @@
 
   <div class="shell">
     <div class="app" id="app-root">
-      <aside class="panel panel--left" id="panel-left">
+      <header class="app-header">
         <div class="user-line" id="user-line" title="Click to edit">
           <span class="user-line__label">user:</span>
           <button type="button" class="user-line__name" id="username-display" aria-label="Edit username"></button>
         </div>
 
+        <div class="main__toolbar">
+          <span class="main__toolbar-spacer" aria-hidden="true"></span>
+
+          <!-- Sync status indicator -->
+          <span class="sync-status" id="sync-status" data-status="local" aria-live="polite">● local mode</span>
+
+          <label class="theme-field">
+            <span class="theme-field__label">theme</span>
+            <select id="theme-select" class="theme-select" aria-label="Color theme">
+              <option value="cyan">cyan</option>
+              <option value="green">green</option>
+              <option value="amber">amber</option>
+              <option value="ice">ice</option>
+            </select>
+          </label>
+
+          <!-- Auth bar: shown when logged in -->
+          <span class="auth-bar" id="auth-bar" hidden>
+            <span class="auth-bar__email" id="auth-bar-email"></span>
+            <button type="button" class="auth-bar__btn" id="auth-logout-btn">logout</button>
+          </span>
+
+          <!-- Login button: shown when logged out + Firebase ready -->
+          <button type="button" class="auth-bar__btn auth-bar__btn--login" id="auth-signin-btn" hidden>login</button>
+        </div>
+      </header>
+
+      <aside class="panel panel--left" id="panel-left">
         <section class="block analytics" aria-labelledby="analytics-heading">
           <h2 id="analytics-heading" class="block__title">// analytics</h2>
           <dl class="analytics__list">
@@ -87,33 +115,6 @@
       </aside>
 
       <main class="panel panel--main">
-
-        <div class="main__toolbar">
-          <span class="main__toolbar-spacer" aria-hidden="true"></span>
-
-          <!-- Sync status indicator -->
-          <span class="sync-status" id="sync-status" data-status="local" aria-live="polite">● local mode</span>
-
-          <label class="theme-field">
-            <span class="theme-field__label">theme</span>
-            <select id="theme-select" class="theme-select" aria-label="Color theme">
-              <option value="cyan">cyan</option>
-              <option value="green">green</option>
-              <option value="amber">amber</option>
-              <option value="ice">ice</option>
-            </select>
-          </label>
-
-          <!-- Auth bar: shown when logged in -->
-          <span class="auth-bar" id="auth-bar" hidden>
-            <span class="auth-bar__email" id="auth-bar-email"></span>
-            <button type="button" class="auth-bar__btn" id="auth-logout-btn">logout</button>
-          </span>
-
-          <!-- Login button: shown when logged out + Firebase ready -->
-          <button type="button" class="auth-bar__btn auth-bar__btn--login" id="auth-signin-btn" hidden>login</button>
-        </div>
-
         <header class="main__header">
           <div class="clock" id="clock" aria-live="polite">--:--:-- --</div>
         </header>
