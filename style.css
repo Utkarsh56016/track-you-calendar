@@ -1716,6 +1716,47 @@ body.focus-mode .task-panel .task-list {
   }
 }
 
+/* Final mobile row-fix: prevent sideways/vertical task stacking */
+@media (max-width: 768px) {
+  #task-list .task-item,
+  .task-list .task-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+  }
+
+  #task-list .task-item input[type="checkbox"],
+  .task-list .task-item input[type="checkbox"] {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+  }
+
+  #task-list .task-item .task-item__label,
+  .task-list .task-item .task-item__label {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    display: block !important;
+    writing-mode: horizontal-tb !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  #task-list .task-item .task-item__del,
+  .task-list .task-item .task-item__del {
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+    align-self: center !important;
+    white-space: nowrap !important;
+  }
+}
+
 /* Mobile regression fix: restore task visibility (no clipping) */
 @media (max-width: 768px) {
   .tasks,
