@@ -1666,15 +1666,15 @@ body.focus-mode .task-panel .task-list {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
   }
 
   .task-list {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
   }
 
   .task-item {
@@ -1694,8 +1694,9 @@ body.focus-mode .task-panel .task-list {
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
-    overflow: visible;
-    text-overflow: clip;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: 100%;
   }
 
   input {
