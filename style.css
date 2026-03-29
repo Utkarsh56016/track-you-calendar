@@ -956,8 +956,14 @@ body.focus-mode .task-panel .task-list {
   .calendar-wrap { order: 3; }
   .task-panel { order: 4; }
 
-  .panel--left > *,
-  .panel--main > * {
+  .analytics,
+  .quote,
+  .graphs,
+  .creator-credit,
+  .main__header,
+  .calendar__nav,
+  .calendar-wrap,
+  .task-panel {
     width: 100%;
     max-width: 100%;
   }
@@ -1446,16 +1452,21 @@ body.focus-mode .task-panel .task-list {
     opacity: 0.7;
   }
 
-  .panel--left > *,
-  .panel--main > * {
+  .analytics,
+  .quote,
+  .graphs,
+  .creator-credit,
+  .main__header,
+  .calendar__nav,
+  .calendar-wrap,
+  .task-panel {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     margin-bottom: 12px;
   }
 
-  .panel--left > *:last-child,
-  .panel--main > *:last-child {
+  .task-panel {
     margin-bottom: 0;
   }
 
@@ -1473,9 +1484,15 @@ body.focus-mode .task-panel .task-list {
     display: block !important;
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
-    overflow-y: visible;
+    overflow: hidden;
     padding-bottom: 6px;
+  }
+
+  .activity,
+  .graphs {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .graph {
@@ -1492,10 +1509,7 @@ body.focus-mode .task-panel .task-list {
 
   /* Time block visual alignment */
   .mobile-time-block {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    display: block;
     width: 100%;
     max-width: 100%;
     padding: 14px;
@@ -1506,6 +1520,8 @@ body.focus-mode .task-panel .task-list {
   }
 
   .clock {
+    display: block;
+    width: 100%;
     font-size: 1.4rem;
     font-weight: 500;
     letter-spacing: 1px;
@@ -1522,6 +1538,8 @@ body.focus-mode .task-panel .task-list {
   .task-container,
   .task-panel,
   .task-list {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 100%;
     overflow: visible;
@@ -1534,9 +1552,25 @@ body.focus-mode .task-panel .task-list {
   }
 
   .task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    gap: 10px;
+  }
+
+  .task-item span,
+  .task-item .task-item__label {
+    flex: 1;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: anywhere;
+    writing-mode: horizontal-tb;
+  }
+
+  .task-item button,
+  .task-item .task-item__del {
+    flex-shrink: 0;
   }
 
   /* Ensure parent containers grow with content */
@@ -1548,8 +1582,11 @@ body.focus-mode .task-panel .task-list {
   }
 
   /* Consistent lower spacing/padding rhythm */
-  .panel--left > *,
-  .panel--main > * {
+  .analytics,
+  .quote,
+  .graphs,
+  .main__header,
+  .task-panel {
     padding-bottom: 14px;
   }
 
