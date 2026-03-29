@@ -1548,11 +1548,12 @@ body.focus-mode .task-panel .task-list {
   .task-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
 
   .task-item {
-    display: flex;
+    display: flex !important;
+    flex-direction: row !important;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -1561,16 +1562,24 @@ body.focus-mode .task-panel .task-list {
 
   .task-item span,
   .task-item .task-item__label {
+    display: block;
     flex: 1;
-    white-space: normal;
-    word-break: normal;
-    overflow-wrap: anywhere;
-    writing-mode: horizontal-tb;
+    white-space: normal !important;
+    word-break: keep-all !important;
+    overflow-wrap: break-word !important;
+    min-width: 0;
   }
 
   .task-item button,
   .task-item .task-item__del {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+  }
+
+  .task-item * {
+    max-width: 100%;
   }
 
   /* Ensure parent containers grow with content */
