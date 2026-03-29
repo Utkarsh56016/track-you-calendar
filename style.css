@@ -890,179 +890,6 @@ body.focus-mode .task-panel .task-list {
   }
 }
 
-/* Mobile-first restructuring: analytics -> quote -> activity -> calendar -> tasks */
-@media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  .shell {
-    padding: 10px;
-  }
-
-  .app {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    overflow: visible;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .app-header {
-    order: 0;
-    padding: 0.45rem 0.55rem;
-    gap: 0.5rem;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .panel--left,
-  .panel--main {
-    width: 100%;
-    min-width: 0;
-    max-width: none;
-  }
-
-  .panel--left {
-    order: 1;
-    border-right: none;
-    border-top: 1px solid var(--border-color);
-    padding: 10px;
-    gap: 12px;
-    overflow: visible;
-  }
-
-  .panel--main {
-    order: 2;
-    padding: 10px;
-    overflow: visible;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Ensure intended vertical order inside sidebar */
-  .analytics { order: 1; }
-  .quote { order: 2; }
-  .graphs { order: 3; margin-top: 0; }
-  .creator-credit { order: 6; margin-top: 0.25rem; padding-top: 0.6rem; }
-
-  /* Main content order: calendar then tasks */
-  .main__header { order: 1; }
-  .calendar__nav { order: 2; }
-  .calendar-wrap { order: 3; }
-  .task-panel { order: 4; }
-
-  .analytics,
-  .quote,
-  .graphs,
-  .creator-credit,
-  .main__header,
-  .calendar__nav,
-  .calendar-wrap,
-  .task-panel {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .main__toolbar {
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    row-gap: 0.35rem;
-    column-gap: 0.5rem;
-  }
-
-  .main__toolbar-spacer {
-    display: none;
-  }
-
-  .calendar-wrap {
-    flex: 0 0 auto;
-    margin-top: 0;
-    margin-bottom: 0.15rem;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow: visible;
-  }
-
-  /* Clock above calendar, left aligned, tighter mobile scale */
-  .main__header {
-    margin-bottom: 0.4rem;
-    padding-bottom: 0.25rem;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .clock {
-    display: block;
-    position: static;
-    width: 100%;
-    text-align: left;
-    font-size: 14px;
-    margin: 0 0 10px 0;
-  }
-
-  /* Calendar header: prev | month | next */
-  .calendar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.35rem;
-    margin: 0 0 0.4rem 0;
-  }
-
-  .calendar-header .btn {
-    flex: 0 0 auto;
-    min-width: 2.1rem;
-    padding: 0.25rem 0.45rem;
-  }
-
-  .calendar-header .calendar__label {
-    flex: 1 1 auto;
-    min-width: 0;
-    text-align: center;
-    font-size: 0.8rem;
-  }
-
-  .calendar-grid {
-    width: 100%;
-    max-width: 100%;
-    max-height: none;
-    height: auto;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    grid-auto-rows: auto;
-    min-width: 0;
-    overflow: visible;
-  }
-
-  .calendar-cell {
-    aspect-ratio: 1 / 1;
-    height: auto;
-    min-height: 0;
-    min-width: 0;
-    font-size: 12px;
-    padding: 4px 6px;
-  }
-
-  .weekday {
-    font-size: 10px;
-  }
-
-  .task-panel {
-    margin-top: 0;
-    max-height: none;
-  }
-
-  .task-panel .task-list {
-    max-height: none;
-    overflow-y: visible;
-  }
-}
 
 @media (max-width: 480px) {
   .shell {
@@ -1356,24 +1183,28 @@ body.focus-mode .task-panel .task-list {
   }
 }
 
+
 /* ═══════════════════════════════════════════════════════════════════
-   MOBILE FIX — max-width: 768px
-   Scope: overflow, width containment, clock tile, panel stacking
-   Desktop (>768px) is completely unaffected.
+   MOBILE — max-width: 768px
+   Wireframe order: header → analytics → quote → time tile →
+                    calendar nav → calendar grid → tasks
+   All overflow/width issues fixed. Desktop (>768px) untouched.
 ═══════════════════════════════════════════════════════════════════ */
- 
+
 @media (max-width: 768px) {
- 
-  /* ── 1. Viewport containment ─────────────────────────────────── */
-  /* Prevent ANY element from creating horizontal scroll.           */
+
+  /* ── Global overflow guard ───────────────────────────────────── */
   html, body {
     overflow-x: hidden;
     max-width: 100vw;
   }
- 
-  /* ── 2. Shell & app root ─────────────────────────────────────── */
-  /* .shell already sets padding:10px at 768px — just ensure       */
-  /* box-sizing is respected and width never exceeds viewport.      */
+
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  /* ── Shell ───────────────────────────────────────────────────── */
   .shell {
     width: 100%;
     max-width: 100vw;
@@ -1382,95 +1213,172 @@ body.focus-mode .task-panel .task-list {
     height: auto;
     min-height: 0;
   }
- 
-  /* Force single-column flex; kill the grid entirely.              */
-  /* Base grid-template-columns: minmax(260px,300px) 1fr bleeds.   */
+
+  /* ── App root: single flex column ───────────────────────────── */
   .app {
     display: flex !important;
     flex-direction: column;
+    gap: 0;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow: visible;
   }
- 
-  /* ── 3. Left panel — kill fixed width ───────────────────────── */
-  /* Base: width:280px; min-width:260px — both must be overridden. */
-  .panel--left {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
-    overflow-x: hidden;
-  }
- 
-  /* ── 4. Main panel — prevent hidden overflow clipping content ─ */
-  /* Base: overflow:hidden clips task list and calendar on mobile.  */
-  .panel--main {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow: visible;
-    padding: 10px;
-  }
- 
-  /* ── 5. App header — constrain toolbar row ───────────────────── */
-  /* Without max-width, sync-status + theme + auth push header wide.*/
+
+  /* ── App header (toolbar row) ────────────────────────────────── */
   .app-header {
+    order: 0;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    overflow: hidden;          /* clips nothing visible; stops bleed */
+    padding: 0.45rem 0.55rem;
+    overflow: hidden;
   }
- 
+
   .main__toolbar {
     width: 100%;
     max-width: 100%;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    row-gap: 0.35rem;
+    column-gap: 0.5rem;
     overflow: hidden;
   }
- 
-  /* Truncate email in auth bar so it never forces width */
+
+  .main__toolbar-spacer {
+    display: none;
+  }
+
   .auth-bar__email {
     max-width: 8ch;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
- 
-  /* ── 6. Clock / mobile-time-block tile ───────────────────────── */
-  /* Problem: .mobile-time-block padding + clock margin-bottom      */
-  /* causes the tile to overflow its container on narrow screens.   */
+
+  /* ── Panel ordering ──────────────────────────────────────────── */
+  /* panel--left  (analytics + quote + graphs + credit) → order 1  */
+  /* panel--main  (time + calendar + tasks)             → order 2  */
+  .panel--left {
+    order: 1;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    border-right: none;
+    border-top: 1px solid var(--border-color);
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .panel--main {
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: visible;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* ── Left panel section order: analytics → quote → graphs(hidden) → credit */
+  .analytics     { order: 1; width: 100%; max-width: 100%; box-sizing: border-box; }
+  .quote         { order: 2; width: 100%; max-width: 100%; box-sizing: border-box; }
+  .graphs        { display: none; }           /* hidden on mobile per wireframe */
+  .creator-credit {
+    order: 4;
+    margin-top: 0.25rem;
+    padding-top: 0.5rem;
+  }
+
+  /* ── Main panel section order: time tile → calendar nav → calendar → tasks */
+  .main__header  { order: 1; width: 100%; max-width: 100%; box-sizing: border-box; margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .calendar__nav,
+  .calendar-header { order: 2; }
+  .calendar-wrap { order: 3; }
+  .task-panel    { order: 4; }
+
+  /* ── Time tile (clock + date) ────────────────────────────────── */
   .mobile-time-block {
     width: 100%;
     max-width: 100%;
-    box-sizing: border-box;     /* padding included in width */
+    box-sizing: border-box;
     padding: 10px 12px;
     border: 1px solid var(--border-color);
     background: rgba(0, 0, 0, 0.4);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
- 
-  /* Clock lives inside the tile — remove its own bottom margin     */
-  /* so the tile height is driven only by padding, not margin bleed.*/
+
+  /* Clock inside tile */
   .mobile-time-block .clock {
-    margin-bottom: 0;
-    font-size: 14px;
+    display: block;
     position: static;
     width: 100%;
-    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    text-align: left;
   }
- 
-  /* ── 7. Calendar (when visible) — full-width grid ────────────── */
-  /* These selectors are display:none at 768px per existing rule,   */
-  /* but guard them here in case that rule is ever changed.         */
+
+  /* Date display line under clock (shown on mobile) */
+  .mobile-time-block .date-display {
+    display: block !important;   /* overrides hidden attr via CSS */
+    font-size: 11px;
+    color: var(--muted-color);
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  /* ── Calendar nav bar ────────────────────────────────────────── */
+  .calendar__nav,
+  .calendar-header {
+    display: flex !important;    /* override any display:none from older rules */
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 0.35rem 0;
+  }
+
+  .calendar-header .btn,
+  .calendar__nav .btn {
+    flex: 0 0 auto;
+    min-width: 2.2rem;
+    padding: 0.28rem 0.5rem;
+  }
+
+  .calendar-header .calendar__label,
+  .calendar__nav .calendar__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    font-size: 0.82rem;
+  }
+
+  /* ── Calendar grid ───────────────────────────────────────────── */
   .calendar-wrap {
+    display: flex !important;    /* override any display:none from older rules */
+    flex-direction: column;
+    flex: 0 0 auto;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    margin: 0;
   }
- 
+
   .weekdays,
   .calendar-grid {
     width: 100%;
@@ -1478,67 +1386,109 @@ body.focus-mode .task-panel .task-list {
     min-width: 0;
     box-sizing: border-box;
   }
- 
-  /* ── 8. Task panel & form ────────────────────────────────────── */
-  /* Ensure task input row never forces width beyond screen.        */
+
+  .calendar-grid {
+    max-height: none;
+    height: auto;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    overflow: visible;
+  }
+
+  .calendar-cell {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    min-height: 0;
+    min-width: 0;
+    font-size: 11px;
+    padding: 3px 4px;
+    box-sizing: border-box;
+  }
+
+  .weekday {
+    font-size: 10px;
+    padding: 3px 2px;
+  }
+
+  /* ── Task panel ──────────────────────────────────────────────── */
   .task-panel {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow: visible;
+    margin-top: 0;
+    max-height: none;
   }
- 
+
+  .task-panel .task-list {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* ── Task form ───────────────────────────────────────────────── */
   .task-form {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     min-width: 0;
   }
- 
+
   .task-input {
-    min-width: 0;           /* flex children can shrink below content width */
-    width: 0;               /* let flex: 1 do the sizing, not intrinsic width */
+    min-width: 0;
+    width: 0;           /* flex:1 sizes it; 0 prevents intrinsic bleed */
   }
- 
-  /* Task items: prevent label overflow pushing row wide */
+
+  /* ── Task items ──────────────────────────────────────────────── */
   .task-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     min-width: 0;
     overflow: hidden;
   }
- 
-  .task-item__label {
+
+  .task-item input[type="checkbox"] {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .task-item .task-item__label {
+    flex: 1 1 auto;
+    min-width: 0;
     overflow-wrap: anywhere;
     word-break: break-word;
-    min-width: 0;
+    white-space: normal;
   }
- 
-  /* ── 9. Analytics & graph blocks ─────────────────────────────── */
-  .analytics,
-  .graphs,
-  .quote,
+
+  .task-item .task-item__del {
+    flex: 0 0 auto;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* ── Block base ──────────────────────────────────────────────── */
   .block {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
   }
- 
-  /* Bar chart: ensure it never stretches wider than its block */
-  .bar-chart {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
- 
-  /* Trend plot: position:relative children are absolute; container  */
-  /* must have an explicit width to constrain them.                  */
+
+  /* ── Trend chart containment ─────────────────────────────────── */
   .trend__plot {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+  }
+
+  .bar-chart {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
