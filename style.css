@@ -1356,480 +1356,64 @@ body.focus-mode .task-panel .task-list {
   }
 }
 
-/* Mobile simplification override: analytics -> quote -> time/date -> tasks */
+/* Mobile task layout stabilization (single source of truth) */
 @media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
-  }
-
-  .app {
-    display: flex !important;
-    flex-direction: column;
-    gap: 14px;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .panel--left,
-  .panel--main {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
-  }
-
-  /* Hide heavy calendar system on mobile */
-  .calendar-wrap,
-  .calendar-grid,
-  .calendar-header,
-  .calendar-controls {
-    display: none !important;
-  }
-
-  /* Keep mobile feed compact: analytics + quote only from sidebar */
-  .graphs {
-    display: none !important;
-  }
-
-  .panel--left {
-    order: 1;
-    padding: 10px;
-    overflow: visible;
-  }
-
-  .analytics { order: 1; font-size: 0.8rem; }
-  .quote { order: 2; }
-  .creator-credit { display: none; }
-
-  .panel--main {
-    order: 2;
-    padding: 10px;
-    overflow: visible;
-  }
-
-  .main__header {
-    order: 1;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    border-bottom: none;
-    box-sizing: border-box;
-  }
-
-  .task-panel {
-    order: 2;
-    margin-top: 0;
-    max-height: none;
-    border-top: 1px solid var(--border-color);
-  }
-
-  /* Time block */
   .mobile-time-block {
     width: 100%;
     max-width: 100%;
     padding: 14px;
-    border: 1px solid #222;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    margin-bottom: 12px;
     background: rgba(0, 0, 0, 0.4);
     box-sizing: border-box;
   }
 
-  .clock {
-    position: static !important;
-    display: block;
-    width: 100%;
-    text-align: left;
-    font-size: 1.3rem;
-    color: #00ffcc;
-    margin: 0 0 6px 0;
-  }
-
-  .date-display {
-    display: block !important;
-    width: 100%;
-    font-size: 0.85rem;
-    opacity: 0.7;
-  }
-
-  .analytics,
-  .quote,
-  .graphs,
-  .creator-credit,
-  .main__header,
-  .calendar__nav,
-  .calendar-wrap,
   .task-panel {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 12px;
-  }
-
-  .task-panel {
-    margin-bottom: 0;
-  }
-
-  .analytics,
-  .quote,
-  .activity {
-    padding: 12px;
-  }
-}
-
-/* Mobile polish overrides (non-destructive): keep graphs + stretch containers */
-@media (max-width: 768px) {
-  /* Restore graphs and make them responsive instead of hidden */
-  .graphs {
-    display: block !important;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    padding-bottom: 6px;
-  }
-
-  .activity,
-  .graphs {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-  }
-
-  .graph {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .graph canvas,
-  .graph-bar-container {
-    width: 100% !important;
-    max-width: 100%;
-  }
-
-  /* Time block visual alignment */
-  .mobile-time-block {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    padding: 14px;
-    border: 1px solid #222;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.5);
-    box-sizing: border-box;
-  }
-
-  .clock {
-    display: block;
-    width: 100%;
-    font-size: 1.4rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-
-  .date-display {
-    font-size: 0.85rem;
-    opacity: 0.6;
-  }
-
-  /* Task area expansion and safe wrapping */
-  .tasks,
-  .task-container,
-  .task-panel,
-  .task-list {
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 100%;
+    max-height: none;
     overflow: visible;
   }
 
   .task-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .task-item {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 10px;
-  }
-
-  .task-item span,
-  .task-item .task-item__label {
     display: block;
-    flex: 1;
-    white-space: normal !important;
-    word-break: keep-all !important;
-    overflow-wrap: break-word !important;
-    min-width: 0;
-  }
-
-  .task-item button,
-  .task-item .task-item__del {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .task-item * {
-    max-width: 100%;
-  }
-
-  /* Ensure parent containers grow with content */
-  .panel,
-  .panel--left,
-  .panel--main {
-    height: auto !important;
-    min-height: unset !important;
-  }
-
-  /* Consistent lower spacing/padding rhythm */
-  .analytics,
-  .quote,
-  .graphs,
-  .main__header,
-  .task-panel {
-    padding-bottom: 14px;
-  }
-
-  .tasks,
-  .task-container,
-  .task-panel {
-    padding-bottom: 18px;
-  }
-
-  /* Input overflow guard */
-  input,
-  textarea {
     width: 100%;
     max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Column consistency */
-  .panel--left,
-  .panel--main {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  /* Final containment lock: prevent task overflow escape */
-  .tasks,
-  .task-panel,
-  .task-container {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden !important;
-    box-sizing: border-box;
-  }
-
-  .task-list {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden !important;
+    max-height: none;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .task-item {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .task-item span,
-  .task-item .task-item__label {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .task-input,
-  input {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-/* Final mobile hard-guard: task visibility after submit */
-@media (max-width: 768px) {
-  #task-panel,
-  .task-panel {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: visible !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-  }
-
-  #task-list,
-  .task-list {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: visible !important;
-    height: auto !important;
-    max-height: none !important;
-  }
-
-  #task-list .task-item,
-  .task-list .task-item {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    overflow: visible !important;
-  }
-
-  #task-list .task-item__label,
-  .task-list .task-item__label {
-    display: block !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: anywhere !important;
-    writing-mode: horizontal-tb !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    color: var(--text-color) !important;
-  }
-
-  #task-list .task-item__del,
-  .task-list .task-item__del {
-    flex: 0 0 auto !important;
-    white-space: nowrap !important;
-  }
-}
-
-/* Final mobile row-fix: prevent sideways/vertical task stacking */
-@media (max-width: 768px) {
-  #task-list .task-item,
-  .task-list .task-item {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 10px !important;
-  }
-
-  #task-list .task-item input[type="checkbox"],
-  .task-list .task-item input[type="checkbox"] {
-    flex: 0 0 auto !important;
-    margin: 0 !important;
-  }
-
-  #task-list .task-item .task-item__label,
-  .task-list .task-item .task-item__label {
-    flex: 1 1 auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    display: block !important;
-    writing-mode: horizontal-tb !important;
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: break-word !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-  }
-
-  #task-list .task-item .task-item__del,
-  .task-list .task-item .task-item__del {
-    margin-left: auto !important;
-    flex: 0 0 auto !important;
-    align-self: center !important;
-    white-space: nowrap !important;
-  }
-}
-
-/* Mobile regression fix: restore task visibility (no clipping) */
-@media (max-width: 768px) {
-  #task-panel,
-  .tasks,
-  .task-panel,
-  .task-container,
-  #task-list,
-  .task-list {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden !important;
-    overflow-y: visible !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-  }
-
-  #task-list .task-item,
-  .task-list .task-item {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 10px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    overflow: visible !important;
-    transform: none !important;
-  }
-
-  #task-list .task-item input[type="checkbox"],
-  .task-list .task-item input[type="checkbox"] {
-    flex: 0 0 auto !important;
-    margin: 0 !important;
-    align-self: center !important;
-  }
-
-  #task-list .task-item .task-item__label,
-  .task-list .task-item .task-item__label {
-    flex: 1 1 auto;
-    min-width: 0 !important;
-    width: auto !important;
-    max-width: none !important;
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: anywhere !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    writing-mode: horizontal-tb !important;
-    line-height: 1.3 !important;
-    transform: none !important;
-  }
-
-  #task-list .task-item .task-item__del,
-  .task-list .task-item .task-item__del {
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    margin-left: auto !important;
-    white-space: nowrap !important;
-    flex: 0 0 auto !important;
-    transform: none !important;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
-  input {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+  .task-item input[type="checkbox"] {
+    flex: 0 0 auto;
+    margin: 0;
+    align-self: center;
+  }
+
+  .task-item .task-item__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: block;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .task-item .task-item__del {
+    margin-left: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 }
