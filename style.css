@@ -1671,6 +1671,7 @@ body.focus-mode .task-panel .task-list {
   }
 
   .task-list {
+    display: block !important;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden !important;
@@ -1678,20 +1679,20 @@ body.focus-mode .task-panel .task-list {
   }
 
   .task-item {
-    display: grid !important;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    display: flex !important;
+    flex-direction: row !important;
     align-items: center;
-    column-gap: 10px;
-    row-gap: 0;
+    justify-content: space-between;
+    gap: 10px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: visible !important;
   }
 
   .task-item span,
   .task-item .task-item__label {
-    flex: 1;
+    flex: 1 1 auto;
     min-width: 0;
     display: block;
     white-space: normal !important;
@@ -1704,14 +1705,16 @@ body.focus-mode .task-panel .task-list {
   }
 
   .task-item input[type="checkbox"] {
-    justify-self: start;
+    flex: 0 0 auto;
   }
 
   .task-item button,
   .task-item .task-item__del {
-    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     white-space: nowrap;
-    flex-shrink: 0;
+    flex: 0 0 auto;
   }
 
   input {
