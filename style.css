@@ -1349,3 +1349,119 @@ body.focus-mode .task-panel .task-list {
     max-width: 10ch;
   }
 }
+
+/* Mobile simplification override: analytics -> quote -> time/date -> tasks */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .app {
+    display: flex !important;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .panel--left,
+  .panel--main {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* Hide heavy calendar system on mobile */
+  .calendar-wrap,
+  .calendar-grid,
+  .calendar-header,
+  .calendar-controls {
+    display: none !important;
+  }
+
+  /* Keep mobile feed compact: analytics + quote only from sidebar */
+  .graphs {
+    display: none !important;
+  }
+
+  .panel--left {
+    order: 1;
+    padding: 10px;
+    overflow: visible;
+  }
+
+  .analytics { order: 1; font-size: 0.8rem; }
+  .quote { order: 2; }
+  .creator-credit { display: none; }
+
+  .panel--main {
+    order: 2;
+    padding: 10px;
+    overflow: visible;
+  }
+
+  .main__header {
+    order: 1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+    box-sizing: border-box;
+  }
+
+  .task-panel {
+    order: 2;
+    margin-top: 0;
+    max-height: none;
+    border-top: 1px solid var(--border-color);
+  }
+
+  /* Time block */
+  .mobile-time-block {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px;
+    border: 1px solid #222;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+  }
+
+  .clock {
+    position: static !important;
+    display: block;
+    width: 100%;
+    text-align: left;
+    font-size: 1.3rem;
+    color: #00ffcc;
+    margin: 0 0 6px 0;
+  }
+
+  .date-display {
+    display: block !important;
+    width: 100%;
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  .panel--left > *,
+  .panel--main > * {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+  }
+
+  .panel--left > *:last-child,
+  .panel--main > *:last-child {
+    margin-bottom: 0;
+  }
+
+  .analytics,
+  .quote,
+  .activity {
+    padding: 12px;
+  }
+}
