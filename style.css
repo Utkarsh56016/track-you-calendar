@@ -870,6 +870,95 @@ body.focus-mode .task-panel .task-list {
   }
 }
 
+/* Mobile-first restructuring: analytics -> quote -> calendar -> tasks */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .shell {
+    padding: 10px;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: visible;
+  }
+
+  .panel--left,
+  .panel--main {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .panel--left {
+    order: 1;
+    border-right: none;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px;
+    gap: 12px;
+    overflow: visible;
+  }
+
+  .panel--main {
+    order: 2;
+    padding: 10px;
+    overflow: visible;
+  }
+
+  /* Ensure intended vertical order inside sidebar */
+  .analytics { order: 1; }
+  .quote { order: 2; }
+  .graphs { order: 3; }
+  .creator-credit { order: 4; }
+
+  /* Main content order: calendar then tasks */
+  .main__toolbar { order: 0; }
+  .main__header { order: 1; }
+  .calendar__nav { order: 2; }
+  .calendar-wrap { order: 3; }
+  .task-panel { order: 4; }
+
+  .panel--left > *,
+  .panel--main > * {
+    width: 100%;
+  }
+
+  .calendar-wrap {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+  }
+
+  .calendar-grid {
+    max-height: none;
+    height: auto;
+    grid-auto-rows: minmax(34px, auto);
+  }
+
+  .calendar-cell {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  .weekday {
+    font-size: 10px;
+  }
+
+  .task-panel {
+    margin-top: 0;
+    max-height: none;
+  }
+
+  .task-panel .task-list {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
 @media (max-width: 480px) {
   .shell {
     padding: 12px;
