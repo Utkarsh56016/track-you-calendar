@@ -1657,3 +1657,50 @@ body.focus-mode .task-panel .task-list {
     box-sizing: border-box;
   }
 }
+
+/* Mobile regression fix: restore task visibility (no clipping) */
+@media (max-width: 768px) {
+  .tasks,
+  .task-panel,
+  .task-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .task-list {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .task-item span,
+  .task-item .task-item__label {
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
