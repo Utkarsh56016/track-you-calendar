@@ -966,7 +966,46 @@ body.focus-mode .task-panel .task-list {
 
   .calendar-wrap {
     flex: 0 0 auto;
+    margin-top: 0;
     margin-bottom: 0.15rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Clock above calendar, left aligned, tighter mobile scale */
+  .main__header {
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .clock {
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    margin: 0 0 0.4rem 0;
+  }
+
+  /* Calendar header: prev | month | next */
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+    margin: 0 0 0.4rem 0;
+  }
+
+  .calendar-header .btn {
+    flex: 0 0 auto;
+    min-width: 2.1rem;
+    padding: 0.25rem 0.45rem;
+  }
+
+  .calendar-header .calendar__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    font-size: 0.8rem;
   }
 
   .calendar-grid {
@@ -975,10 +1014,14 @@ body.focus-mode .task-panel .task-list {
     max-height: none;
     height: auto;
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    grid-auto-rows: minmax(32px, auto);
+    grid-auto-rows: auto;
+    overflow: hidden;
   }
 
   .calendar-cell {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    min-height: 0;
     font-size: 12px;
     padding: 4px 6px;
   }
