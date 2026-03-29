@@ -1658,6 +1658,64 @@ body.focus-mode .task-panel .task-list {
   }
 }
 
+/* Final mobile hard-guard: task visibility after submit */
+@media (max-width: 768px) {
+  #task-panel,
+  .task-panel {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  #task-list,
+  .task-list {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  #task-list .task-item,
+  .task-list .task-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  #task-list .task-item__label,
+  .task-list .task-item__label {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    writing-mode: horizontal-tb !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    color: var(--text-color) !important;
+  }
+
+  #task-list .task-item__del,
+  .task-list .task-item__del {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+}
+
 /* Mobile regression fix: restore task visibility (no clipping) */
 @media (max-width: 768px) {
   .tasks,
